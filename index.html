@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Secure Botanical Vault</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1b4332;
+            --primary-hover: #2d6a4f;
+            --accent: #d4a373;
+            --bg-start: #e9edc9;
+            --bg-end: #fefae0;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-dark: #1d2d44;
+            --text-muted: #6c757d;
+            --border: #ccd5ae;
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.25s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(27, 67, 50, 0.12);
+            width: 100%;
+            max-width: 480px;
+            padding: 32px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--bg-start);
+            padding-bottom: 18px;
+            margin-bottom: 24px;
+        }
+
+        .title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .flower-icon {
+            font-size: 32px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        h1 {
+            font-size: 1.35rem;
+            color: var(--primary);
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .status-badge {
+            font-size: 0.72rem;
+            background: #d8f3dc;
+            color: #2d6a4f;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        select.lang-picker {
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            background: white;
+            color: var(--text-dark);
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
+
+        select.lang-picker:hover {
+            border-color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: var(--radius);
+            border: 1.5px solid #dce1de;
+            font-size: 0.95rem;
+            background: #fafafa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.1);
+        }
+
+        .toggle-pw {
+            position: absolute;
+            right: 12px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 1.1rem;
+            opacity: 0.6;
+        }
+
+        .toggle-pw:hover { opacity: 1; }
+
+        .strength-meter {
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            background: #e74c3c;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: #f0f4f1;
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-start);
+        }
+
+        .secret-box {
+            background: #ffffff;
+            border: 1.5px dashed var(--accent);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .copy-btn:hover { opacity: 1; transform: scale(1.1); }
+
+        .botanical-footer {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            border-top: 1px solid #eee;
+            padding-top: 14px;
+        }
+
+        .hidden { display: none !important; }
+
+        .fade-in {
+            animation: fadeIn 0.35s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container fade-in">
+    <div class="header">
+        <div>
+            <div class="title-group">
+                <span class="flower-icon">🌸</span>
+                <h1 id="app-title">Secure Vault</h1>
+            </div>
+            <span class="status-badge" id="status-tag">● Argon2id / AES-256</span>
+        </div>
+        <select class="lang-picker" id="langSelect" onchange="changeLanguage()">
+            <option value="ca">Català 🌐</option>
+            <option value="es">Castellà 🌐</option>
+            <option value="en">Anglès 🌐</option>
+            <option value="no">Norueg 🌐</option>
+        </select>
+    </div>
+
+    <!-- VISTA D'AUTENTICACIÓ -->
+    <div id="authView" class="fade-in">
+        <div class="form-group">
+            <label id="lbl-user">Nom d'Usuari</label>
+            <input type="text" id="username" placeholder="ex: alumne_uab">
+        </div>
+        <div class="form-group">
+            <label id="lbl-pass">Contrasenya</label>
+            <div class="input-wrapper">
+                <input type="password" id="password" oninput="checkStrength(this.value)">
+                <span class="toggle-pw" onclick="togglePassword('password')">👁️</span>
+            </div>
+            <div class="strength-meter"><div class="strength-bar" id="strengthBar"></div></div>
+        </div>
+        <div class="btn-group">
+            <button class="btn-primary" id="btn-login" onclick="login()">Iniciar Sessió 🔑</button>
+            <button class="btn-secondary" id="btn-register" onclick="register()">Registrar 📝</button>
+        </div>
+    </div>
+
+    <!-- VISTA DE SECRET (DASHBOARD) -->
+    <div id="vaultView" class="hidden fade-in">
+        <h3 id="lbl-welcome" style="margin-top: 0; color: var(--primary);">Sessió Activa 🌺</h3>
+        
+        <div class="form-group">
+            <label id="lbl-sec-name">Identificador del Secret</label>
+            <input type="text" id="secName" placeholder="ex: Moodle, Targeta...">
+        </div>
+        <div class="form-group">
+            <label id="lbl-sec-val">Text a Xifrar</label>
+            <div class="input-wrapper">
+                <input type="password" id="secValue" placeholder="Contingut privat">
+                <span class="toggle-pw" onclick="togglePassword('secValue')">👁️</span>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-primary" id="btn-save" onclick="saveSecret()">Desar 🌺</button>
+            <button class="btn-secondary" id="btn-read" onclick="readSecret()">Llegir 🌼</button>
+        </div>
+
+        <div class="secret-box">
+            <button class="copy-btn" title="Copiar" onclick="copyResult()">📋</button>
+            <strong id="lbl-output-title">Resultat desxifrat:</strong>
+            <div id="output" style="word-break: break-all; margin-top: 8px; font-family: monospace; color: var(--primary); font-weight: bold;">-</div>
+        </div>
+
+        <button class="btn-secondary" style="margin-top: 18px; width: 100%; color: #c0392b;" id="btn-logout" onclick="logout()">Tancar Sessió 🚪</button>
+    </div>
+
+    <div class="botanical-footer">
+        🪻 <b>Secure Academic Vault</b> &bull; OpenSSL 3.2+ & SQLite3 🪻
+    </div>
+</div>
+
+<script>
+    const i18n = {
+        ca: {
+            title: "Secure Vault 🌿", user: "Nom d'Usuari", pass: "Contrasenya",
+            login: "Iniciar Sessió 🔑", reg: "Registrar 📝", welcome: "Sessió Activa 🌺",
+            secName: "Identificador del Secret", secVal: "Text a Xifrar",
+            save: "Desar 🌺", read: "Llegir 🌼", out: "Resultat desxifrat:", logout: "Tancar Sessió 🚪"
+        },
+        es: {
+            title: "Secure Vault 🌿", user: "Nombre de Usuario", pass: "Contraseña",
+            login: "Iniciar Sesión 🔑", reg: "Registrar 📝", welcome: "Sesión Activa 🌺",
+            secName: "Identificador del Secreto", secVal: "Texto a Cifrar",
+            save: "Guardar 🌺", read: "Leer 🌼", out: "Resultado descifrado:", logout: "Cerrar Sesión 🚪"
+        },
+        en: {
+            title: "Secure Vault 🌿", user: "Username", pass: "Password",
+            login: "Log In 🔑", reg: "Register 📝", welcome: "Active Session 🌺",
+            secName: "Secret Identifier", secVal: "Text to Encrypt",
+            save: "Save 🌺", read: "Read 🌼", out: "Decrypted Result:", logout: "Log Out 🚪"
+        },
+        no: {
+            title: "Sikker Hvelv 🌿", user: "Brukernavn", pass: "Passord",
+            login: "Logg inn 🔑", reg: "Registrer 📝", welcome: "Aktiv Sesjon 🌺",
+            secName: "Hemmelig Identifikator", secVal: "Tekst som skal krypteres",
+            save: "Lagre 🌺", read: "Les 🌼", out: "Dekryptert Resultat:", logout: "Logg ut 🚪"
+        }
+    };
+
+    let currentUser = "";
+    let currentPw = "";
+
+    function changeLanguage() {
+        const lang = document.getElementById('langSelect').value;
+        const t = i18n[lang];
+        document.getElementById('app-title').innerText = t.title;
+        document.getElementById('lbl-user').innerText = t.user;
+        document.getElementById('lbl-pass').innerText = t.pass;
+        document.getElementById('btn-login').innerText = t.login;
+        document.getElementById('btn-register').innerText = t.reg;
+        document.getElementById('lbl-welcome').innerText = t.welcome;
+        document.getElementById('lbl-sec-name').innerText = t.secName;
+        document.getElementById('lbl-sec-val').innerText = t.secVal;
+        document.getElementById('btn-save').innerText = t.save;
+        document.getElementById('btn-read').innerText = t.read;
+        document.getElementById('lbl-output-title').innerText = t.out;
+        document.getElementById('btn-logout').innerText = t.logout;
+    }
+
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        input.type = input.type === "password" ? "text" : "password";
+    }
+
+    function checkStrength(val) {
+        const bar = document.getElementById('strengthBar');
+        let strength = 0;
+        if (val.length >= 8) strength += 40;
+        if (/[A-Z]/.test(val)) strength += 20;
+        if (/[0-9]/.test(val)) strength += 20;
+        if (/[^A-Za-z0-9]/.test(val)) strength += 20;
+        bar.style.width = strength + "%";
+        bar.style.backgroundColor = strength < 40 ? "#e74c3c" : strength < 80 ? "#f39c12" : "#2ecc71";
+    }
+
+    function copyResult() {
+        const outText = document.getElementById('output').innerText;
+        if (outText !== "-") {
+            navigator.clipboard.writeText(outText);
+            alert("📋 Secret copiat al portapapapers!");
+        }
+    }
+
+    async function register() {
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
+        const res = await fetch(`/api/register?u=${encodeURIComponent(u)}&p=${encodeURIComponent(p)}`);
+        alert(await res.text());
+    }
+
+    async function login() {
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
+        const res = await fetch(`/api/login?u=${encodeURIComponent(u)}&p=${encodeURIComponent(p)}`);
+        const text = await res.text();
+        if (text === "OK") {
+            currentUser = u;
+            currentPw = p;
+            document.getElementById('authView').classList.add('hidden');
+            document.getElementById('vaultView').classList.remove('hidden');
+        } else {
+            alert(text);
+        }
+    }
+
+    async function saveSecret() {
+        const name = document.getElementById('secName').value;
+        const val = document.getElementById('secValue').value;
+        const res = await fetch(`/api/save?u=${encodeURIComponent(currentUser)}&p=${encodeURIComponent(currentPw)}&name=${encodeURIComponent(name)}&val=${encodeURIComponent(val)}`);
+        document.getElementById('output').innerText = await res.text();
+    }
+
+    async function readSecret() {
+        const name = document.getElementById('secName').value;
+        const res = await fetch(`/api/read?u=${encodeURIComponent(currentUser)}&p=${encodeURIComponent(currentPw)}&name=${encodeURIComponent(name)}`);
+        document.getElementById('output').innerText = await res.text();
+    }
+
+    function logout() {
+        currentUser = ""; currentPw = "";
+        document.getElementById('vaultView').classList.add('hidden');
+        document.getElementById('authView').classList.remove('hidden');
+    }
+</script>
+</body>
+</html>
